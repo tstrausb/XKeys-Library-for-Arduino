@@ -1,0 +1,44 @@
+####################################################
+# Syntax Coloring Map For the XKeys USB Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+XkeysReportParser	KEYWORD1
+
+
+####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+init	KEYWORD2
+setBLSteps	KEYWORD2
+stepBLIntensity	KEYWORD2
+setFlashFreq	KEYWORD2
+indexSetBL	KEYWORD2
+setRowBL	KEYWORD2
+toggleBLs	KEYWORD2
+setLEDs	KEYWORD2
+setBLintensity	KEYWORD2
+indexSetLEDs	KEYWORD2
+setUnitID	KEYWORD2
+saveBLStateEEPROM	KEYWORD2
+enableTimeStamp	KEYWORD2
+OnKeyUp	KEYWORD2
+OnKeyDown	KEYWORD2
+
+####################################################
+# Constants and enums (LITERAL1)
+####################################################
+RPT_XKEYS_LEN	LITERAL1
+BL_BLUE	LITERAL1
+BL_RED	LITERAL1
+OUT_RPT_LEN	LITERAL1
+MODE_OFF	LITERAL1
+MODE_ON	LITERAL1
+MODE_FLASH	LITERAL1
+LED_GREEN	LITERAL1
+LED_RED	LITERAL1
+STICK	LITERAL1
+PADSIZE	LITERAL1

@@ -1,0 +1,41 @@
+(c) 2014 Thomas Strausbaugh
+See below for additional credit where credit is due!
+
+XkeysReportParser. This is a library used to read the key reports from an 
+XKeys device. It also allows sending of commands to the XKeys device to 
+adjust backlighting, etc. Just sub class the XkeysReportParser class and 
+implement the OnKeyUp or OnKeyDown methods to receive the key reports. This 
+class requires the following Arduino library:
+
+https://github.com/felis/USB_Host_Shield_2.0
+
+Oleg Masurov of Circuits at Home also made contributions to this library in
+that he made changes to his USB Host Shield Library to facilitate the 
+development of this library.
+
+Download the project files and place them in your Arduino libraries
+folder. You may need to perform the SPI hardware modification documented by
+Circuits at Home for the USB Host Shield depending on whether you are using 
+other shields and what they are.
+
+Rick Russell is the author of the library upon which this library is based. 
+His original library can be found at:
+
+https://github.com/macoss/XkeysRptParser
+
+This work based on his library was created September 29th, 2014.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
