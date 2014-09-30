@@ -72,7 +72,7 @@ public:
 	void init();
 	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
-	/**********BL stepping methods are only supported on XK68 or XK128************/
+	/**********BL stepping methods are only supported on XK68 or XK128 or on "Plus" versions of other pads.************/
 	void setBLSteps(uint8_t color, uint8_t *steps);
 	  // use an array of 10 steps
 	  // color: 0 for blue, 1 for red, 255 to reset all to factory default
@@ -103,6 +103,8 @@ public:
 	  // ********limited number of times this can be done! Use sparingly!**********
 	void enableTimeStamp(uint8_t endis);
 	  // 0 to disable, 1 to enable
+	void reboot();
+	  // supported on "Plus" versions
 
 protected:
 	// Subclass XkeysReportParser and define these methods to receive events

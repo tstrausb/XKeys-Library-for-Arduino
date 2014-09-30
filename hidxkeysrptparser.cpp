@@ -235,3 +235,9 @@ void XkeysReportParser::enableTimeStamp(uint8_t endis)
   sendCommand();
 }
 
+void XkeysReportParser::reboot()
+{
+  wipeArray();
+  rpt[0] = 238;
+  sendCommand();
+}
