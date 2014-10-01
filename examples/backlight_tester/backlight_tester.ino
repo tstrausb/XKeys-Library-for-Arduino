@@ -6,11 +6,6 @@
 #include <SPI.h>
 #include <hidxkeysrptparser.h>
 
-USB                             Usb;
-HIDUniversal                    Hid(&Usb);
-
-uint32_t now = millis() + 1000; // used during setup, Usb.Task must run a number of times before sending any commands to the XKeys device.
-
 uint8_t counter = 0; 
 uint8_t color = BL_BLUE;
 uint8_t mode = MODE_ON;
@@ -29,7 +24,7 @@ protected:
   virtual void OnKeyDown(uint8_t keyId);
 };
 
-XKeys::XKeys() : XkeysReportParser(&Hid, &Usb) {}
+XKeys::XKeys() : XkeysReportParser() {}
 
 XKeys XKs;
 
@@ -70,10 +65,6 @@ void setup()
   
   XKs.init();
   
-  while(millis() < now) { // required: allows the host to initialize before any commands are sent
-    Usb.Task();
-  }
-  
   /*Place commands here to put your XKeys device into its desired initial state.*/
   /*************my particular example***************/
   for(uint8_t i = 0; i < 6; i++) {
@@ -88,7 +79,7 @@ void setup()
 void loop()
 {
     // Excutes the USB.init() function to receive reports This MUST stay here!
-    Usb.Task();
+    XKs.runLoop();
     XKs.indexSetBL(counter, color, mode);
     counter++;
     if(counter == 6) {

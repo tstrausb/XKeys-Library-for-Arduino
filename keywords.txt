@@ -28,6 +28,7 @@ enableTimeStamp	KEYWORD2
 reboot	KEYWORD2
 OnKeyUp	KEYWORD2
 OnKeyDown	KEYWORD2
+runLoop	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)

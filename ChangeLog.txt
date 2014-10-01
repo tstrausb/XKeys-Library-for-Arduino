@@ -1,0 +1,18 @@
+October 1st, 2014
+
+ - buried the USB and HID objects into the class to keep them private (makes the library easier to use also)
+ - made the OUT report object private
+ - added the runLoop method (use in the loop of the sketch)
+ - modified examples and keywords file
+ - created ChangeLog file
+ - general cleanup of code
+
+September 30th, 2014
+
+ - added a new example
+ - added keymap to README
+ - added reboot method
+
+September 29th, 2014
+
+ - initial commit

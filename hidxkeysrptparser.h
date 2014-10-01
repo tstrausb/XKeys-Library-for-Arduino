@@ -46,33 +46,24 @@ definitions below for your device.
 
 class XkeysReportParser : public HIDReportParser
 {
-	uint8_t			oldRpt[RPT_XKEYS_LEN];
-	uint32_t			oldButtons;
-
 public:
-        uint8_t rpt[OUT_RPT_LEN];
-        uint8_t STICK;
-        uint8_t PADSIZE;
-          // define STICK and PADSIZE in the setup of the sketch
 
-private:
-        uint8_t		_blueIntensity;
-        uint8_t		_redIntensity;
-        uint8_t		_rowsBlue;
-        uint8_t		_rowsRed;
+	// define STICK and PADSIZE in the setup of the sketch
+	uint8_t STICK;
+	uint8_t PADSIZE;
 
-public:
 
 	/**********If the public methods are called from within the class
 	(i.e. from the OnKey methods), you do not need to denote them with
 	<class_instance>.method. See example.***************************/
 
 
-	XkeysReportParser(HIDUniversal *p, USB *q);
+	XkeysReportParser();
 	void init();
 	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+	void runLoop();
 
-	/**********BL stepping methods are only supported on XK68 or XK128 or on "Plus" versions of other pads.************/
+	/**********BL stepping methods are only supported on XK68 or XK128 or on "Plus" or "Mobile" versions of other pads.************/
 	void setBLSteps(uint8_t color, uint8_t *steps);
 	  // use an array of 10 steps
 	  // color: 0 for blue, 1 for red, 255 to reset all to factory default
@@ -104,7 +95,7 @@ public:
 	void enableTimeStamp(uint8_t endis);
 	  // 0 to disable, 1 to enable
 	void reboot();
-	  // supported on "Plus" versions
+	  // supported on "Plus" or "Mobile" versions
 
 protected:
 	// Subclass XkeysReportParser and define these methods to receive events
@@ -112,10 +103,17 @@ protected:
 	virtual void OnKeyDown(uint8_t keyId) {};
 
 private:
-	HIDUniversal* pHid;
-	USB* pUsb;
+	USB Usb;
+	HIDUniversal Hid;
 	void sendCommand();
 	void wipeArray();
+	uint8_t		_blueIntensity;
+	uint8_t		_redIntensity;
+	uint8_t		_rowsBlue;
+	uint8_t		_rowsRed;
+	uint8_t		oldRpt[RPT_XKEYS_LEN];
+	uint32_t		oldButtons;
+	uint8_t		rpt[OUT_RPT_LEN];
 
 };
 

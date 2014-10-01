@@ -17,8 +17,9 @@
 
 #include "hidxkeysrptparser.h"
 
-XkeysReportParser::XkeysReportParser(HIDUniversal *p, USB *q) :
-pHid(p), pUsb(q)
+XkeysReportParser::XkeysReportParser() :
+Usb(),
+Hid(HIDUniversal(&Usb))
 {
 	oldButtons = 0;
 
@@ -36,13 +37,19 @@ pHid(p), pUsb(q)
 
 void XkeysReportParser::init()
 {
-  if (pUsb->Init() == -1)
+  if (Usb.Init() == -1)
             Serial.println("OSC did not start.");
             
   delay( 200 );
 
-  if (!pHid->SetReportParser(0, (HIDReportParser*)this))
+  if (!Hid.SetReportParser(0, (HIDReportParser*)this))
             ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
+
+  uint32_t setupDelay = millis() + 1000;
+
+  while(millis() < setupDelay) {
+    Usb.Task();
+  }
 
 }
 
@@ -93,20 +100,27 @@ void XkeysReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *bu
 	}
 }
 
+void XkeysReportParser::runLoop()
+{
+  Usb.Task();
+
+}
+
 void XkeysReportParser::wipeArray()
 {
   for (uint8_t i=0; i<OUT_RPT_LEN; i++)
 		rpt[i]	= 0x00;
+
 }
 
 void XkeysReportParser::sendCommand()
 {
-  uint8_t ret = pHid->SndRpt(OUT_RPT_LEN, rpt);
+  uint8_t ret = Hid.SndRpt(OUT_RPT_LEN, rpt);
   Serial.print("HID OUT Return: ");
   Serial.println(ret, HEX);
   uint32_t hold = millis() + 25;
   while(millis() < hold)
-    pUsb->Task();
+    Usb.Task();
 
 }
 
