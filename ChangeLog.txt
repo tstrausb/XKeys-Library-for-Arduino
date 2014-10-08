@@ -1,3 +1,7 @@
+October 8th, 2014
+
+ - added an ATEM example
+
 October 1st, 2014
 
  - buried the USB and HID objects into the class to keep them private (makes the library easier to use also)
