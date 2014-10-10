@@ -1,3 +1,11 @@
+October 10th, 2014
+
+ - fixed a bug with red backlighting
+ - trimmed SRAM usage
+ - added support for XK60/80 and XK128
+ - updated README
+ - debugging of ATEM example
+
 October 8th, 2014
 
  - added an ATEM example

@@ -4,8 +4,12 @@ See below for additional credit where credit is due!
 XkeysReportParser. This is a library used to read the key reports from an 
 XKeys device. It also allows sending of commands to the XKeys device to 
 adjust backlighting, etc. Just sub class the XkeysReportParser class and 
-implement the OnKeyUp or OnKeyDown methods to receive the key reports. This 
-class requires the following Arduino library:
+implement the OnKeyUp or OnKeyDown methods to receive the key reports.
+
+Supported models are XK4/8/16 Stick (including Plus/Mobile versions) and 
+XK24/60/80/128 (including Plus/Mobile versions).
+
+This class requires the following Arduino library:
 
 https://github.com/felis/USB_Host_Shield_2.0
 

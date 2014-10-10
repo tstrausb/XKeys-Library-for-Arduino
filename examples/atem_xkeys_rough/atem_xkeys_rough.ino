@@ -34,7 +34,6 @@ XKeys::XKeys() : XkeysReportParser() {}
  
 void XKeys::OnKeyDown(uint8_t keyId)
 {
-  AtemSwitcher.runLoop(); // keep connection alive--there's a lot going on under the hood here
   if(keyId < 7) { // the first 7 keys (0 through 6) will switch between inputs 0 to 6 (0 is black)
     AtemSwitcher.changeProgramInput(keyId);
   }
@@ -59,6 +58,7 @@ XKeys XKs;
 
 void checkBLs() 
 {
+  AtemSwitcher.delay(100);
   XKs.indexSetBL(currentInput, BL_BLUE, MODE_OFF);
   uint16_t tempInput = AtemSwitcher.getProgramInput();
   if(tempInput < 7) { // filtering "currentInput" to "keyId"
@@ -81,23 +81,26 @@ void reconnect()
   XKs.indexSetBL(15, BL_BLUE, MODE_FLASH); // going to flash mode to indicate loss of connection
   while(1)
   {
-    Serial.println("Reconnecting");
+    Serial.println(F("Reconnecting"));
     AtemSwitcher.connect();
     // sleep while the connection is established
-    delay(1000);
+    delay(12000);
     // Do we have a connection?
     if(!AtemSwitcher.isConnectionTimedOut()) {
       XKs.indexSetBL(15, BL_BLUE, MODE_ON); // going back to on mode to indicate good connection again
       return;
     }
-    // guess not, Sleep for 5 seconds and try again.
-    delay(5000);
   }
 }
   
  
 void setup()
 {
+  /****Define your device details here.****/
+  XKs.STICK = 1; // 0 for pad, 1 for stick
+  XKs.PADSIZE = 16; // number of keys on your device
+  /****************************************/
+  
   // Start the Ethernet, Serial (debugging) and UDP:
   Ethernet.begin(mac,ip);
   
@@ -107,10 +110,7 @@ void setup()
   //digitalWrite(10, HIGH);
   //digitalWrite(4, HIGH);
   
-  Serial.println("Start");
-  
-  XKs.STICK = 1;         // entering parameters of the XKeys device
-  XKs.PADSIZE = 16;      // using an X-Keys XK16 Stick
+  Serial.println(F("Start"));
       
   // Initialize a connection to the switcher:
   AtemSwitcher.serialOutput(true);
@@ -122,7 +122,6 @@ void setup()
   
   for(uint8_t i = 1; i < 7; i++) {
     XKs.setRowBL(i, BL_BLUE, MODE_OFF); // turning off all blue backlighting for initial state on an XK16
-    XKs.setRowBL(i, BL_RED, MODE_OFF); // the same for red backlights
   }
   
   AtemSwitcher.runLoop(); // keeping the connection alive since we haven't entered the loop yet

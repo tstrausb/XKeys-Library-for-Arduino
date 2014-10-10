@@ -42,10 +42,10 @@ void XKeys::OnKeyUp(uint8_t keyId)
 
 void setup()
 {
-  /************define these for your device****************/
-  XKs.STICK = 0;      // 0 for pads, 1 for sticks
-  XKs.PADSIZE = 24;   // enter number of keys on your pad (irrelevant if stick)
-  /********************************************************/
+  /****Define your device details here.****/
+  XKs.STICK = 0; // 0 for pad, 1 for stick
+  XKs.PADSIZE = 24; // number of keys on your device
+  /****************************************/
   
   Serial.begin( 115200 );
   while(!Serial); // waiting for serial port to connect

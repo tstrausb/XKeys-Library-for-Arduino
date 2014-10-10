@@ -30,8 +30,7 @@
 
 /****************************
 Supported models are XK 4/8/16 
-stick and XK 24/60/80/128. Modify 
-definitions below for your device.
+stick and XK 24/60/80/128.
 ****************************/
 
 #define RPT_XKEYS_LEN		18
@@ -48,10 +47,8 @@ class XkeysReportParser : public HIDReportParser
 {
 public:
 
-	// define STICK and PADSIZE in the setup of the sketch
-	uint8_t STICK;
-	uint8_t PADSIZE;
-
+	uint8_t	STICK;
+	uint8_t	PADSIZE;
 
 	/**********If the public methods are called from within the class
 	(i.e. from the OnKey methods), you do not need to denote them with
@@ -63,7 +60,7 @@ public:
 	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 	void runLoop();
 
-	/**********BL stepping methods are only supported on XK68 or XK128 or on "Plus" or "Mobile" versions of other pads.************/
+	/**********BL stepping methods are only supported on XK128 or on "Plus" or "Mobile" versions of other pads.************/
 	void setBLSteps(uint8_t color, uint8_t *steps);
 	  // use an array of 10 steps
 	  // color: 0 for blue, 1 for red, 255 to reset all to factory default
@@ -112,7 +109,7 @@ private:
 	uint8_t		_rowsBlue;
 	uint8_t		_rowsRed;
 	uint8_t		oldRpt[RPT_XKEYS_LEN];
-	uint32_t		oldButtons;
+	uint32_t		oldButtons[4];
 	uint8_t		rpt[OUT_RPT_LEN];
 
 };

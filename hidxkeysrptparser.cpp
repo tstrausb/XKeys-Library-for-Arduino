@@ -21,7 +21,8 @@ XkeysReportParser::XkeysReportParser() :
 Usb(),
 Hid(HIDUniversal(&Usb))
 {
-	oldButtons = 0;
+	for (uint8_t i=0; i<4; i++)
+		oldButtons[i] = 0;
 
   	for (uint8_t i=0; i<RPT_XKEYS_LEN; i++)
 		oldRpt[i]	= 0xD;
@@ -32,13 +33,13 @@ Hid(HIDUniversal(&Usb))
 	_blueIntensity = 128;
 	_redIntensity = 128;
 	_rowsBlue = 255;
-	_rowsRed = 0;
+	_rowsRed = 255;
 }
 
 void XkeysReportParser::init()
 {
   if (Usb.Init() == -1)
-            Serial.println("OSC did not start.");
+            Serial.println(F("OSC did not start."));
             
   delay( 200 );
 
@@ -71,32 +72,50 @@ void XkeysReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *bu
 		for (uint8_t i=0; i<RPT_XKEYS_LEN; i++) oldRpt[i] = buf[i];
 	}
 	
+	uint8_t k;
+	if(!STICK) {
+		switch (PADSIZE) {
+			case 24:
+				k = 1;
+				break;
+			case 60:
+				k = 3;
+				break;
+			case 80:
+				k = 3;
+				break;
+			case 128:
+				k = 4;
+				break;
+		}
+	} else {
+		k = 1;
+	}
+	for (uint8_t j = 0; j < k; j++) {
 
-	uint32_t buttons = (0x00000000 | buf[5]);
-	buttons <<= 24;
-	buttons |= ((uint32_t)buf[4] << 16);
-	buttons |= ((uint32_t)buf[3] << 8);
-        buttons |= ((uint32_t)buf[2] << 0);
-	uint32_t changes = (buttons ^ oldButtons);
+		uint32_t buttons = ((j == 2) && (k == 3)) ? (0x00000000) : (0x00000000 | buf[(j*4)+5]);
+		buttons <<= 24;
+		buttons |= ((j == 2) && (k == 3)) ? (0x00000000) : ((uint32_t)buf[(j*4)+4] << 16);
+		buttons |= ((uint32_t)buf[(j*4)+3] << 8);
+		buttons |= ((uint32_t)buf[(j*4)+2] << 0);
+		uint32_t changes = (buttons ^ oldButtons[j]);
  
 
-	// Calling Button Event Handler for every button changed
-	if (changes)
-	{
-		for (uint8_t i=0; i<0x1e; i++)
-		{
-			uint32_t mask = ((uint32_t)0x01 << i);
+		// Calling Button Event Handler for every button changed
+		if (changes) {
+			for (uint8_t i=0; i < 32; i++) {
+				uint32_t mask = ((uint32_t)0x01 << i);
 
-			if (((mask & changes) > 0)) {
-				uint8_t j = i/8 + 4*(i%8);
-				if ((buttons & mask) > 0) {
-					(STICK) ? OnKeyDown(j) : OnKeyDown(i);
-                                } else {
-					(STICK) ? OnKeyUp(j) : OnKeyUp(i);
-                                }
+				if (((mask & changes) > 0)) {
+					if ((buttons & mask) > 0) {
+						(STICK) ? OnKeyDown(i/8 + 4*(i%8)) : OnKeyDown(i+(j*32));
+					} else {
+						(STICK) ? OnKeyUp(i/8 + 4*(i%8)) : OnKeyUp(i+(j*32));
+                     	     }
+				}
 			}
+			oldButtons[j] = buttons;
 		}
-		oldButtons = buttons;
 	}
 }
 
@@ -116,7 +135,7 @@ void XkeysReportParser::wipeArray()
 void XkeysReportParser::sendCommand()
 {
   uint8_t ret = Hid.SndRpt(OUT_RPT_LEN, rpt);
-  Serial.print("HID OUT Return: ");
+  Serial.print(F("HID OUT Return: "));
   Serial.println(ret, HEX);
   uint32_t hold = millis() + 25;
   while(millis() < hold)
