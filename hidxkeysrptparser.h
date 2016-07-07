@@ -24,7 +24,7 @@
 #include <WProgram.h>
 #endif
 
-#include "hid.h"
+#include "usbhid.h"
 #include "hiduniversal.h"
 #include "Usb.h"
 
@@ -57,7 +57,7 @@ public:
 
 	XkeysReportParser();
 	void init();
-	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+	virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 	void runLoop();
 
 	/**********BL stepping methods are only supported on XK128 or on "Plus" or "Mobile" versions of other pads.************/

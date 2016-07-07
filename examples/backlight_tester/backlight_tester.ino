@@ -1,5 +1,5 @@
 
-#include "hid.h"
+#include "usbhid.h"
 #include "hiduniversal.h"
 #include "Usb.h"
 

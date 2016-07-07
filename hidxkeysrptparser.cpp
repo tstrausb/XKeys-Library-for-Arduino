@@ -54,7 +54,7 @@ void XkeysReportParser::init()
 
 }
 
-void XkeysReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
+void XkeysReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
 {
 	bool match = true;
 
@@ -135,7 +135,7 @@ void XkeysReportParser::wipeArray()
 void XkeysReportParser::sendCommand()
 {
   uint8_t ret = Hid.SndRpt(OUT_RPT_LEN, rpt);
-  Serial.print(F("HID OUT Return: "));
+  Serial.print(F("USBHID OUT Return: "));
   Serial.println(ret, HEX);
   uint32_t hold = millis() + 25;
   while(millis() < hold)
